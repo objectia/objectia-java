@@ -10,7 +10,7 @@ public class Response {
 	private int status;
 	private String body;
 	private Headers headers;
-
+	
 	/**
 	 * Class constructor
 	 * 

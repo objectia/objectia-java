@@ -57,20 +57,20 @@ Example.java
 ```java
 package examples;
 
-import com.objectia;
+import com.objectia.ObjectiaClient;
+import com.objectia.api.GeoLocation;
 import com.objectia.exceptions.APIException;
 import com.objectia.exceptions.ResponseException;
 import com.objectia.models.User;
 
 public class Example {
-
     public static void main(String[] args) {
+        String apiKey = System.getenv("OBJECTIA_APIKEY");
 
-        Client client = new Client();
-        
         try {
-            User user = client.createUser("jdoe@example.com", "+12125551234", 1);
-            // ...
+            ObjectiaClient.init(apiKey);
+            GeoLocation location = GeoLocation.get("8.8.8.8");
+            System.err.println("Country code: " + location.getCountryCode());
         } catch (ResponseException ex) {
             System.err.println("Response error: " + ex.getMessage());
         } catch (APIException ex) {
