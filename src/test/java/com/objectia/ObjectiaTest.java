@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,6 +60,23 @@ public class ObjectiaTest {
             GeoLocation location = GeoLocation.get("8.8.8.8");
             assertNotNull(location);
             assertEquals("US", location.getCountryCode());
+        } catch (ResponseException ex) {
+            assertNotNull(ex);
+        } catch (IllegalArgumentException ex) {
+            assertNotNull(ex);
+        }
+    }
+
+    @Test
+    public void testGetBulkLocation() throws APIException {
+        try {
+            ObjectiaClient.init(apiKey);
+            List<GeoLocation> locations = GeoLocation.getBulk(new String[]{"8.8.8.8", "apple.com"});
+            assertNotNull(locations);
+            assertEquals(2, locations.size());
+            for (GeoLocation l : locations) {
+                assertEquals("US", l.getCountryCode());
+            }
         } catch (ResponseException ex) {
             assertNotNull(ex);
         } catch (IllegalArgumentException ex) {

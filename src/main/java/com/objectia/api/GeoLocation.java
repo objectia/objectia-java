@@ -1,6 +1,8 @@
 package com.objectia.api;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,13 +35,38 @@ public class GeoLocation {
     }
 
     /**
-     * 
-     * @return
+     * Get geolocation by IP address
+     * @return geolocaiton
+     * @throws APIException
+     * @throws IllegalArgumentException
      */
     public static GeoLocation get(final String ip) throws APIException, IllegalArgumentException {
+        if (ip == null) {
+            throw new IllegalArgumentException("An IP address was not provided");
+        }
         RestClient restClient = ObjectiaClient.getRestClient();
         Response resp = restClient.get("/geoip/" + ip); 
         return GeoLocation.fromJSON(resp.getBody());
+    }
+
+    /**
+     * Get geolocation for requester's current IP address.
+     * @return geolocaiton
+     * @throws APIException
+     * @throws IllegalArgumentException
+     */
+    public static GeoLocation getCurrent() throws APIException, IllegalArgumentException {
+        return GeoLocation.get("myip");
+    }
+
+    public static List<GeoLocation> getBulk(final String ipList[]) throws APIException, IllegalArgumentException {
+        if (ipList == null || ipList.length == 0) {
+            throw new IllegalArgumentException("An IP address was not provided");
+        }
+        String ips = String.join(",", ipList);
+        RestClient restClient = ObjectiaClient.getRestClient();
+        Response resp = restClient.get("/geoip/" + ips); 
+        return GeoLocation.fromJSONArray(resp.getBody());
     }
 
     /**
@@ -68,5 +95,11 @@ public class GeoLocation {
         Type type = TypeToken.getParameterized(Entity.class, GeoLocation.class).getType();
         Entity<GeoLocation> res = GSON.fromJson(json, type); 
         return res.getData();
+    }
+
+    public static List<GeoLocation> fromJSONArray(final String json) {
+        Type type = TypeToken.getParameterized(Entity.class, GeoLocation[].class).getType();
+        Entity<GeoLocation[]> res = GSON.fromJson(json, type); 
+        return Arrays.asList(res.getData());
     }
 }
