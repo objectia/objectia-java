@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.objectia.ObjectiaClient;
 import com.objectia.models.Entity;
 import com.objectia.models.Response;
+import com.objectia.utils.StringUtils;
 import com.objectia.RestClient;
 import com.objectia.exceptions.APIException;
 
@@ -63,7 +64,7 @@ public class GeoLocation {
         if (ipList == null || ipList.length == 0) {
             throw new IllegalArgumentException("An IP address was not provided");
         }
-        String ips = String.join(",", ipList);
+        String ips = StringUtils.join(ipList, ",");
         RestClient restClient = ObjectiaClient.getRestClient();
         Response resp = restClient.get("/geoip/" + ips); 
         return GeoLocation.fromJSONArray(resp.getBody());
