@@ -128,10 +128,28 @@ public class GeoLocation {
             throw new IllegalArgumentException("An IP address was not provided");
         }
         RestClient restClient = ObjectiaClient.getRestClient();
-        Response resp = restClient.get("/geoip/" + ip); 
+        String query = makeQuery(fields, hostname, security);
+        Response resp = restClient.get("/geoip/" + ip + query); 
         return GeoLocation.fromJSON(resp.getBody());
     }
 
+    private static String makeQuery(final String fields, final Boolean hostname, final Boolean security) {
+        StringBuilder sb = new StringBuilder();
+
+        if (fields != null && fields.length() > 0) {
+            sb.append("?fields="+fields);
+        }
+        if (hostname) {
+            sb.append(sb.length() == 0 ? "?" : "&");
+            sb.append("hostname=true");
+        }
+        if (security) {
+            sb.append(sb.length() == 0 ? "?" : "&");
+            sb.append("security=true");
+        }
+
+        return sb.toString();
+    }
 
     /**
      * Get geolocation for requester's current IP address.
@@ -183,7 +201,8 @@ public class GeoLocation {
         }
         String ips = StringUtils.join(ipList, ",");
         RestClient restClient = ObjectiaClient.getRestClient();
-        Response resp = restClient.get("/geoip/" + ips); 
+        String query = makeQuery(fields, hostname, security);
+        Response resp = restClient.get("/geoip/" + ips + query); 
         return GeoLocation.fromJSONArray(resp.getBody());
     }
 
@@ -197,7 +216,7 @@ public class GeoLocation {
      *      ... details here ...
      *   } 
      * }</p>
-     * 
+     * f
      * @param json a string containing JSON to be converted
      * @return GeoLocation
      */
