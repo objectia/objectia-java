@@ -47,8 +47,9 @@ You'll need to manually install the following JARs:
 
 If you're planning on using ProGuard, make sure that you exclude the objectia bindings. You can do this by adding the following to your `proguard.cfg` file:
 
-    -keep class com.objectia.** { *; }
-
+```
+-keep class com.objectia.** { *; }
+```
 
 ## Usage
 
@@ -61,7 +62,6 @@ import com.objectia.ObjectiaClient;
 import com.objectia.api.GeoLocation;
 import com.objectia.exceptions.APIException;
 import com.objectia.exceptions.ResponseException;
-import com.objectia.models.User;
 
 public class Example {
     public static void main(String[] args) {

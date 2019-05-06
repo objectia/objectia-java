@@ -31,32 +31,73 @@ public class RestClient {
         this.timeout = timeout;
 
         if (this.apiKey == null) {
-            throw new IllegalArgumentException("No API keyprovided");
+            throw new IllegalArgumentException("No API key provided");
         }
     }
 
     //******************************************************
 
+    /**
+     * Execute a HTTP GET request
+     * @param path path to the resource
+     * @return response object
+     * @throws APIException
+     */
     public Response get(final String path) throws APIException {
         return execute("GET", path, null);
     }
 
+    /**
+     * Execute a HTTP POST request
+     * @param path path to the resource
+     * @param params data payload
+     * @return response object
+     * @throws APIException
+     */
     public Response post(final String path, final Object params) throws APIException {
         return execute("POST", path, params);
     }
 
+    /**
+     * Execute a HTTP PUT request
+     * @param path path to the resource
+     * @param params data payload
+     * @return response object
+     * @throws APIException
+     */
     public Response put(final String path, final Object params) throws APIException {
         return execute("PUT", path, params);
     }
 
+    /**
+     * Execute a HTTP PATCH request
+     * @param path path to the resource
+     * @param params data payload
+     * @return response object
+     * @throws APIException
+     */
     public Response patch(final String path, final Object params) throws APIException {
         return execute("PATCH", path, params);
     }
 
+    /**
+     * Execute a HTTP DELETE request
+     * @param path path to the resource
+     * @return response object
+     * @throws APIException
+     */
     public Response delete(final String path) throws APIException {
         return execute("DELETE", path, null);
     }
 
+    /**
+     * Execute HTTP request
+     * @param method HTTP method: GET, POST, PUT, PATCH, DELETE
+     * @param path path to the resource
+     * @param params data payload (optional)
+     * @return response object
+     * @throws APIException
+     */
     protected Response execute(final String method, final String path, final Object payload)
             throws APIException {
         String uri = this.apiUrl + path;
@@ -126,7 +167,13 @@ public class RestClient {
         return body;
     }
 
-    protected String encode(final String str) throws IllegalArgumentException{
+    /**
+     * Encode URL parameter
+     * @param str string to be encoded
+     * @return encoded string
+     * @throws IllegalArgumentException
+     */
+    public String encode(final String str) throws IllegalArgumentException{
         try {
             return URLEncoder.encode(str, "UTF-8");
         } catch (Exception ex ) {
@@ -134,70 +181,3 @@ public class RestClient {
         }
     }
 }
-
-    //***************************************************************
-
-    /*protected Response execute(final String method, final String path, final Object payload)
-            throws APIException {
-        String uri = this.apiUrl + path;
-
-        if (uri.startsWith("https://")) {
-            return secureRequest(method, path, payload, token);
-        }
-
-        HttpURLConnection conn = null;
-        try {
-            URL url = new URL(uri);
-
-            conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod(method);
-            if (token != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + token.getAccessToken());
-            }
-            conn.setRequestProperty("Accept-Charset", "UTF-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("User-Agent", Constants.USER_AGENT);
-
-            conn.setConnectTimeout(this.timeout * 1000);
-            conn.setReadTimeout(this.timeout * 2000);
-            conn.setUseCaches(false);
-
-            if (payload != null) {
-                // Add payload
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setDoOutput(true);
-                String json = GSON.toJson(payload);
-                byte buffer[] = json.getBytes("UTF-8");
-                conn.setFixedLengthStreamingMode(buffer.length);
-                OutputStream os = conn.getOutputStream();
-                os.write(buffer);
-                os.flush();
-                os.close();
-            }
-
-            String body = null;
-            int statusCode = conn.getResponseCode();
-            if (statusCode >= 200 && statusCode < 300) {
-                body = getBody(conn.getInputStream());
-            } else {
-                body = getBody(conn.getErrorStream());
-                Error err = GSON.fromJson(body, Error.class);
-                //LOGGER.warning(err.getMessage());
-                throw new ResponseException(err.getStatus(), err.getMessage());
-            }
-
-            return new Response(statusCode, body, conn.getHeaderFields());
-        } catch (java.net.SocketTimeoutException e) {
-            throw new APITimeoutException("The request timed out");
-        } catch (IOException ex) {
-            //LOGGER.severe("Unable to connect to server");
-            throw new APIConnectionException(
-                    "Unable to connect to server. Please check your internet connection and try again.");
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-    }*/
-
