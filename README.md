@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/objectia/objectia-java.svg?branch=master)](https://travis-ci.org/objectia/objectia-java)
 <!--[![codecov](https://codecov.io/gh/objectia/objectia-java/branch/master/graph/badge.svg)](https://codecov.io/gh/objectia/objectia-java)-->
 
-Java client for [Objectia API](https://objectia.com)
+Java client for [Objectia API](https://objectia.com)&reg;
 
 ## Documentation
 
