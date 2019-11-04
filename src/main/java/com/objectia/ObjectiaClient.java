@@ -1,9 +1,25 @@
 package com.objectia;
 
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import kong.unirest.Unirest;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+
+import com.objectia.models.Entity;
+import com.objectia.exceptions.ResponseException;
+
+
 /**
  * Singleton class to initialize ObjectiaClient.
  */
 public final class ObjectiaClient {
+
+    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
 
     private static String apiKey;
     private static int timeout = 30;
@@ -24,6 +40,47 @@ public final class ObjectiaClient {
     public static void init(final String apiKey, final int timeout) {
         ObjectiaClient.setApiKey(apiKey);
         ObjectiaClient.setTimeout(timeout);
+
+        Unirest.config()
+            .socketTimeout(timeout * 1000)
+            .connectTimeout(timeout * 1000)
+            .setDefaultHeader("Authorization", "Bearer " + apiKey);
+    }
+
+    public static <T> T get(final String path, Class<T> aClass) throws ResponseException {
+        HttpResponse<JsonNode> response = Unirest.get(Constants.API_BASE_URL + path).asJson();
+        if (response.getStatus() == 200) {
+            return ObjectiaClient.fromJSON(response.getBody().toString(), aClass);
+        } else {
+            // Error
+            throw new ResponseException(response.getStatus(), response.getStatusText());
+        }
+    }
+
+    public static <T> T post(final String path, Class<T> aClass) throws ResponseException {
+        HttpResponse<JsonNode> response = Unirest.post(Constants.API_BASE_URL + path).asJson();
+        if (response.getStatus() == 200) {
+            return ObjectiaClient.fromJSON(response.getBody().toString(), aClass);
+        } else {
+            // Error
+            throw new ResponseException(response.getStatus(), response.getStatusText());
+        }
+    }
+
+
+    public static <T> T fromJSON(final String json, Class<T> aClass) {
+        Type type = TypeToken.getParameterized(Entity.class, aClass).getType();
+        Entity<T> res = GSON.fromJson(json, type); 
+        return res.getData();
+    }
+
+    /**
+     * Creates a json string from the Usage
+     * 
+     * @return a JSON data string
+     */
+    public static String toJSON(Object obj) {
+        return GSON.toJson(obj);
     }
 
     /**

@@ -18,6 +18,7 @@ import com.objectia.exceptions.ResponseException;
 import com.objectia.Error;
 import com.objectia.models.Response;
 
+
 public class RestClient {
 
     private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
@@ -121,13 +122,25 @@ public class RestClient {
 
             if (payload != null) {
                 // Add payload
-                conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
-                String json = GSON.toJson(payload);
-                byte buffer[] = json.getBytes("UTF-8");
-                conn.setFixedLengthStreamingMode(buffer.length);
                 OutputStream os = conn.getOutputStream();
-                os.write(buffer);
+                /*if (payload instanceof MultipartForm) {
+                    MultipartForm form = (MultipartForm) payload;
+                    conn.setRequestProperty("Content-Type", form.getContentType());
+
+                    //byte buffer[] = form.getBytes("UTF-8");
+                    //conn.setFixedLengthStreamingMode(buffer.length);
+                    //os.write(buffer);
+
+                    //writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+                } else {*/
+                    // JSON
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    String json = GSON.toJson(payload);
+                    byte buffer[] = json.getBytes("UTF-8");
+                    conn.setFixedLengthStreamingMode(buffer.length);
+                    os.write(buffer);
+                //}
                 os.flush();
                 os.close();
             }

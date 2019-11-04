@@ -1,27 +1,18 @@
 package com.objectia.api;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 
 import com.objectia.ObjectiaClient;
-import com.objectia.models.Entity;
-import com.objectia.models.Response;
 import com.objectia.utils.StringUtils;
-import com.objectia.RestClient;
 import com.objectia.exceptions.APIException;
 
 /**
  * Usage GeoLocation model class.
  */
 public class GeoLocation {
-    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-  
     @SerializedName("ip")
     private final String ipAddress = null;        
 
@@ -127,28 +118,8 @@ public class GeoLocation {
         if (ip == null) {
             throw new IllegalArgumentException("An IP address was not provided");
         }
-        RestClient restClient = ObjectiaClient.getRestClient();
         String query = makeQuery(fields, hostname, security);
-        Response resp = restClient.get("/geoip/" + ip + query); 
-        return GeoLocation.fromJSON(resp.getBody());
-    }
-
-    private static String makeQuery(final String fields, final Boolean hostname, final Boolean security) {
-        StringBuilder sb = new StringBuilder();
-
-        if (fields != null && fields.length() > 0) {
-            sb.append("?fields="+fields);
-        }
-        if (hostname) {
-            sb.append(sb.length() == 0 ? "?" : "&");
-            sb.append("hostname=true");
-        }
-        if (security) {
-            sb.append(sb.length() == 0 ? "?" : "&");
-            sb.append("security=true");
-        }
-
-        return sb.toString();
+        return ObjectiaClient.get("/v1/geoip/" + ip + query, GeoLocation.class);
     }
 
     /**
@@ -200,38 +171,27 @@ public class GeoLocation {
             throw new IllegalArgumentException("An IP address was not provided");
         }
         String ips = StringUtils.join(ipList, ",");
-        RestClient restClient = ObjectiaClient.getRestClient();
         String query = makeQuery(fields, hostname, security);
-        Response resp = restClient.get("/geoip/" + ips + query); 
-        return GeoLocation.fromJSONArray(resp.getBody());
+        return Arrays.asList(ObjectiaClient.get("/v1/geoip/" + ips + query, GeoLocation[].class));
     }
 
-    /**
-     * Creates a GeoLocation object from a JSON string. 
-     * 
-     * This JSON has the following format:
-     * <p>{
-     *   "status": 200,
-     *   "data": {
-     *      ... details here ...
-     *   } 
-     * }</p>
-     * f
-     * @param json a string containing JSON to be converted
-     * @return GeoLocation
-     */
-    public static GeoLocation fromJSON(final String json) {
-        Type type = TypeToken.getParameterized(Entity.class, GeoLocation.class).getType();
-        Entity<GeoLocation> res = GSON.fromJson(json, type); 
-        return res.getData();
-    }
+    private static String makeQuery(final String fields, final Boolean hostname, final Boolean security) {
+        StringBuilder sb = new StringBuilder();
 
-    public static List<GeoLocation> fromJSONArray(final String json) {
-        Type type = TypeToken.getParameterized(Entity.class, GeoLocation[].class).getType();
-        Entity<GeoLocation[]> res = GSON.fromJson(json, type); 
-        return Arrays.asList(res.getData());
-    }
+        if (fields != null && fields.length() > 0) {
+            sb.append("?fields="+fields);
+        }
+        if (hostname) {
+            sb.append(sb.length() == 0 ? "?" : "&");
+            sb.append("hostname=true");
+        }
+        if (security) {
+            sb.append(sb.length() == 0 ? "?" : "&");
+            sb.append("security=true");
+        }
 
+        return sb.toString();
+    }
 
     public String getIpAddress() {
         return this.ipAddress;
