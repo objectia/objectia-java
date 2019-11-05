@@ -4,12 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-//import static org.junit.Assert.fail;
 
 import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -36,34 +32,6 @@ public class ObjectiaTest {
 
     @AfterClass
     public static void tearDown() {
-    }
-
-    @Test
-    public void testfromJSON() {
-        try {
-            class X  {
-                @SerializedName("param")
-                private String param;
-            
-                public X() {}
-
-                public void setParam(final String p) {
-                    this.param = p;
-                }
-
-                public String toJSON() {
-                    Gson gson = new Gson();
-                    return gson.toJson(this);
-                }
-            }
-
-            X x = new X();
-            x.setParam("Hello world");
-            String json = x.toJSON();
-            assertNotNull(json);
-        } catch (Exception ex) {
-            assertNull(ex);
-        }
     }
 
     @Test
@@ -113,7 +81,6 @@ public class ObjectiaTest {
         try {
             MailMessage message = new MailMessage("ok@demo2.org", "Test", "This is a test", "ok@demo2.org");
             message.addAttachment("/Users/otto/me.png");
-            message.setTestMode(true);
             MailReceipt receipt = Mail.send(message);
 
             assertNotNull(receipt);
