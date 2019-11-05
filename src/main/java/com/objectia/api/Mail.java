@@ -1,12 +1,11 @@
 package com.objectia.api;
 
 import com.google.gson.annotations.SerializedName;
+import org.apache.http.HttpEntity;
 
 import com.objectia.ObjectiaClient;
-import com.objectia.models.Response;
 import com.objectia.models.MailMessage;
 import com.objectia.models.MailReceipt;
-import com.objectia.RestClient;
 import com.objectia.exceptions.APIException;
 
 /**
@@ -46,7 +45,8 @@ public class Mail {
      * @return
      */
     public static MailReceipt send(MailMessage message) throws APIException, IllegalArgumentException {
-        return ObjectiaClient.post("/v1/usage", MailReceipt.class);
+        HttpEntity content = message.asFormContent();
+        return ObjectiaClient.post("/v1/mail/send", content, MailReceipt.class);
     }
 
     /**

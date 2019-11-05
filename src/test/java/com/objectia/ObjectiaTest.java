@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+//import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -110,9 +110,10 @@ public class ObjectiaTest {
 
     @Test
     public void testSendMail() throws APIException {
-       /* try {
+        try {
             MailMessage message = new MailMessage("ok@demo2.org", "Test", "This is a test", "ok@demo2.org");
-            
+            message.addAttachment("/Users/otto/me.png");
+            message.setTestMode(true);
             MailReceipt receipt = Mail.send(message);
 
             assertNotNull(receipt);
@@ -123,6 +124,6 @@ public class ObjectiaTest {
             assertNull(ex);
         } catch (IllegalArgumentException ex) {
             assertNull(ex);
-        }*/
+        }
     }
 }

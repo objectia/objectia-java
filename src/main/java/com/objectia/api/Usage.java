@@ -1,6 +1,7 @@
 package com.objectia.api;
 
 import com.google.gson.annotations.SerializedName;
+
 import com.objectia.ObjectiaClient;
 import com.objectia.exceptions.APIException;
 
