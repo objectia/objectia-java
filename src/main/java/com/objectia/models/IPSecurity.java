@@ -1,7 +1,10 @@
-package com.objectia.api;
+package com.objectia.models;
 
 //import com.google.gson.annotations.SerializedName;
 
+/*
+ * IPSecurity model
+ */
 public final class IPSecurity {
 
     //@SerializedName("xxx")
@@ -9,4 +12,6 @@ public final class IPSecurity {
 
     public IPSecurity() {}
 
+
+    //FIXME!
 }

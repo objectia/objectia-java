@@ -15,7 +15,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
 
 /**
- * Mail message
+ * MailMessage model
  */
 public class MailMessage {
     private ZonedDateTime date;

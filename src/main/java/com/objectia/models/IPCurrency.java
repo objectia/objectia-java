@@ -1,7 +1,10 @@
-package com.objectia.api;
+package com.objectia.models;
 
 import com.google.gson.annotations.SerializedName;
 
+/*
+ * IPCurrency model
+ */
 public final class IPCurrency {
 
     @SerializedName("code")

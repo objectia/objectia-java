@@ -18,6 +18,8 @@ import com.objectia.api.Usage;
 import com.objectia.exceptions.APIException;
 import com.objectia.exceptions.ResponseException;
 
+import com.objectia.models.APIUsage;
+import com.objectia.models.IPLocation;
 import com.objectia.models.MailMessage;
 import com.objectia.models.MailReceipt;
 
@@ -37,7 +39,7 @@ public class ObjectiaTest {
     @Test
     public void testGetUsage() throws APIException {
         try {
-            Usage usage = Usage.get();
+            APIUsage usage = Usage.get();
             assertNotNull(usage);
             assertNotEquals(0, usage.getGeoLocationRequests());
         } catch (ResponseException ex) {
@@ -50,7 +52,7 @@ public class ObjectiaTest {
     @Test
     public void testGetLocation() throws APIException {
         try {
-            GeoLocation location = GeoLocation.get("8.8.8.8");
+            IPLocation location = GeoLocation.get("8.8.8.8");
             assertNotNull(location);
             assertEquals("US", location.getCountryCode());
         } catch (ResponseException ex) {
@@ -63,10 +65,10 @@ public class ObjectiaTest {
     @Test
     public void testGetBulkLocation() throws APIException {
         try {
-            List<GeoLocation> locations = GeoLocation.getBulk(new String[]{"8.8.8.8", "apple.com"});
+            List<IPLocation> locations = GeoLocation.getBulk(new String[]{"8.8.8.8", "apple.com"});
             assertNotNull(locations);
             assertEquals(2, locations.size());
-            for (GeoLocation l : locations) {
+            for (IPLocation l : locations) {
                 assertEquals("US", l.getCountryCode());
             }
         } catch (ResponseException ex) {

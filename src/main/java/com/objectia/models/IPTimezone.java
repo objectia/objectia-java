@@ -1,8 +1,11 @@
-package com.objectia.api;
+package com.objectia.models;
 
 import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
+/*
+ * IPTimezone model
+ */
 public final class IPTimezone {
 	@SerializedName("id")
 	private final String id = null;

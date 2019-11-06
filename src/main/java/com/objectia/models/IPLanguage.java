@@ -1,7 +1,10 @@
-package com.objectia.api;
+package com.objectia.models;
 
 import com.google.gson.annotations.SerializedName;
 
+/*
+ * IPLanguage model
+ */
 public final class IPLanguage {
     @SerializedName("code")
     private final String code = null; 
