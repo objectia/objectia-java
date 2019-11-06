@@ -36,7 +36,7 @@ public class MailMessage {
     private Boolean verifyCertificate;
     private Boolean openTracking;
     private Boolean clickTracking;
-    private Boolean htmlOnlyClickTracking;
+    private Boolean plainTextClickTracking;
     private Boolean unsubscribeTracking;
     private Boolean testMode;
 
@@ -253,12 +253,12 @@ public class MailMessage {
     }
 
    /**
-     * Enables/disables HTML only click tracking
+     * Enables/disables plain text message click tracking
      * 
 	 * @param flag turns the feature on or off.
      */
-    public void setHtmlOnlyClickTracking(final Boolean flag) {
-        this.htmlOnlyClickTracking = flag;
+    public void setPlainTextClickTracking(final Boolean flag) {
+        this.plainTextClickTracking = flag;
     }
 
    /**
@@ -338,8 +338,8 @@ public class MailMessage {
         if (this.clickTracking != null) {
             builder.addTextBody("click_tracking", this.clickTracking.toString(), ContentType.TEXT_PLAIN);
         }
-        if (this.htmlOnlyClickTracking != null) {
-            builder.addTextBody("html_click_tracking", this.htmlOnlyClickTracking.toString(), ContentType.TEXT_PLAIN);
+        if (this.plainTextClickTracking != null) {
+            builder.addTextBody("text_click_tracking", this.plainTextClickTracking.toString(), ContentType.TEXT_PLAIN);
         }
         if (this.unsubscribeTracking != null) {
             builder.addTextBody("unsubscribe_tracking", this.unsubscribeTracking.toString(), ContentType.TEXT_PLAIN);
