@@ -6,7 +6,7 @@ Java client for [Objectia API](https://objectia.com)&reg;
 
 ## Documentation
 
-See the [Java API docs](https://docs.objectia.com/guide/java.html).
+See the [Java API docs](https://docs.objectia.com/java/).
 
 
 ## Requirements
@@ -24,7 +24,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.objectia</groupId>
   <artifactId>objectia-java</artifactId>
-  <version>0.9.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.objectia:objectia-java:0.9.1"
+compile "com.objectia:objectia-java:1.0.0"
 ```
 
 ### Others
