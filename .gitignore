@@ -29,3 +29,6 @@ target/**
 .settings
 META-INF/
 doc/**
+dist/**
+
+/settings.xml
