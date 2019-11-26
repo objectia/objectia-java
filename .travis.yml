@@ -6,7 +6,7 @@ jdk:
   - openjdk10
   - openjdk11
   - openjdk12
-  - oraclejdk9
+# - oraclejdk9
 
 script: mvn install -DskipTests=true
 
