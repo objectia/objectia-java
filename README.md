@@ -11,7 +11,7 @@ See the [Java API docs](https://docs.objectia.com/java/).
 
 ## Requirements
 
-Java 1.7 or later.
+Java 1.8 or later.
 
 
 ## Installation
@@ -41,7 +41,8 @@ compile "com.objectia:objectia-java:1.0.0"
 You'll need to manually install the following JARs:
 
 * The objectia JAR from https://github.com/objectia/objectia-java/releases/latest
-* [Google Gson](https://github.com/google/gson) from <https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar>.
+* [Google Gson](https://github.com/google/gson) from <https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar>.
+* [Apache HttpClient](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) from <https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.10/httpclient-4.5.10.jar>.
 
 ### [ProGuard](http://proguard.sourceforge.net/)
 
@@ -62,6 +63,7 @@ import com.objectia.ObjectiaClient;
 import com.objectia.api.GeoLocation;
 import com.objectia.exceptions.APIException;
 import com.objectia.exceptions.ResponseException;
+import com.objectia.models.IPLocation;
 
 public class Example {
     public static void main(String[] args) {
@@ -69,12 +71,14 @@ public class Example {
 
         try {
             ObjectiaClient.init(apiKey);
-            GeoLocation location = GeoLocation.get("8.8.8.8");
+            IPLocation location = GeoLocation.get("8.8.8.8");
             System.err.println("Country code: " + location.getCountryCode());
-        } catch (ResponseException ex) {
-            System.err.println("Response error: " + ex.getMessage());
-        } catch (APIException ex) {
-            System.err.println("API error: " + ex.getMessage());
+        } catch (ResponseException e) {
+            System.err.println("Response error: " + e.getMessage());
+        } catch (APIException e) {
+            System.err.println("API error: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

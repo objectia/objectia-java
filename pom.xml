@@ -6,7 +6,7 @@
 
     <groupId>com.objectia</groupId>
     <artifactId>objectia-java</artifactId>
-    <version>0.9.2</version>
+    <version>1.0.0</version>
     <name>objectia-java</name>
     <url>https://github.com/objectia/objectia-java</url>
     <properties>

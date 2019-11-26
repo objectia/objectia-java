@@ -83,7 +83,7 @@ public final class ObjectiaClient {
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 Error err = GSON.fromJson(json, Error.class);
-                throw new ResponseException(err.getStatus(), err.getMessage());
+                throw new ResponseException(err.getStatus(), err.getMessage(), err.getCode());
             }
         } catch (java.net.SocketTimeoutException e) {
             throw new APITimeoutException("The request timed out");
@@ -135,7 +135,7 @@ public final class ObjectiaClient {
                 HttpEntity entity = response.getEntity();
                 String json = EntityUtils.toString(entity);
                 Error err = GSON.fromJson(json, Error.class);
-                throw new ResponseException(err.getStatus(), err.getMessage());
+                throw new ResponseException(err.getStatus(), err.getMessage(), err.getCode());
             }
         } catch (java.net.SocketTimeoutException e) {
             throw new APITimeoutException("The request timed out");

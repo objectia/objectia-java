@@ -22,7 +22,7 @@ public final class IPTimezone {
     @SerializedName("daylight_saving")
 	private final Boolean daylightSaving = false;         
 
-    public IPTimezone() {}
+    public IPTimezone() {}	
 
 	public String getId() {
 		return this.id;

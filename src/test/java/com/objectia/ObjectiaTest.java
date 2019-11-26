@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.objectia.exceptions.ResponseException;
 
 import com.objectia.models.APIUsage;
 import com.objectia.models.IPLocation;
+import com.objectia.models.IPSecurity;
 import com.objectia.models.MailMessage;
 import com.objectia.models.MailReceipt;
 
@@ -95,4 +97,17 @@ public class ObjectiaTest {
             assertNull(ex);
         }
     }
+
+    @Test
+    public void geoipDataStructures() throws APIException {
+        String json = "{ \"data\": { \"is_proxy\": true, \"proxy_type\": \"test\", \"threat_types\": [\"x\",\"y\"] } }";
+        IPSecurity sec = ObjectiaClient.fromJSON(json, IPSecurity.class);
+        assertEquals(true, sec.isProxy());
+        assertEquals("test", sec.getProxyType());
+        assertEquals(null, sec.getThreatLevel());
+        assertArrayEquals(new String[] { "x", "y" }, sec.getThreatTypes());
+    }
+
+    
+
 }
