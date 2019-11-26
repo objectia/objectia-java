@@ -8,8 +8,7 @@ jdk:
   - openjdk12
   - oraclejdk9
 
-script:
-- echo "skipping tests"
+script: mvn install -DskipTests=true
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
