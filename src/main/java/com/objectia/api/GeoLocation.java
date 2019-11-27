@@ -22,8 +22,8 @@ public class GeoLocation {
      * 
      * @param ip ip address
      * @return geolocation
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if the IP address was invalid
      */
     public static IPLocation get(final String ip) throws APIException, IllegalArgumentException {
         return GeoLocation.get(ip, "", false, false);
@@ -37,8 +37,8 @@ public class GeoLocation {
      * @param hostname look up host name
      * @param security additional security info
      * @return geolocation
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if the IP address was invalid
      */
     public static IPLocation get(final String ip, final String fields, final Boolean hostname, final Boolean security) throws APIException, IllegalArgumentException {
         if (ip == null) {
@@ -52,8 +52,8 @@ public class GeoLocation {
      * Get geolocation for requester's current IP address.
      * 
      * @return geolocaiton
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if the IP address was invalid
      */
     public static IPLocation getCurrent() throws APIException, IllegalArgumentException {
         return GeoLocation.getCurrent("", false, false);
@@ -66,8 +66,8 @@ public class GeoLocation {
      * @param hostname look up host name
      * @param security additional security info
      * @return geolocation
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if the IP address was invalid
      */
     public static IPLocation getCurrent(final String fields, final Boolean hostname, final Boolean security) throws APIException, IllegalArgumentException {
         return GeoLocation.get("myip", fields, hostname, security);        
@@ -78,8 +78,8 @@ public class GeoLocation {
      * 
      * @param ipList array of ip or domain names
      * @return geolocation array
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if one of the IP addresses was invalid
      */
     public static List<IPLocation> getBulk(final String ipList[]) throws APIException, IllegalArgumentException {
         return GeoLocation.getBulk(ipList, "", false, false);
@@ -93,8 +93,8 @@ public class GeoLocation {
      * @param hostname look up host name
      * @param security additional security info
      * @return geolocation array
-     * @throws APIException
-     * @throws IllegalArgumentException
+     * @throws APIException if the request failed
+     * @throws IllegalArgumentException if one of the IP addresses was invalid
      */
     public static List<IPLocation> getBulk(final String ipList[], final String fields, final Boolean hostname, final Boolean security) throws APIException, IllegalArgumentException {
         if (ipList == null || ipList.length == 0) {
@@ -105,6 +105,14 @@ public class GeoLocation {
         return Arrays.asList(ObjectiaClient.get("/v1/geoip/" + ips + query, IPLocation[].class));
     }
 
+    /**
+     * Make URL query parameters
+     * 
+     * @param fields a comma separated string of fields to display
+     * @param hostname set to true if hostname should be resolved from IP
+     * @param security set to true if security info should be added
+     * @return an URL query string
+     */
     private static String makeQuery(final String fields, final Boolean hostname, final Boolean security) {
         StringBuilder sb = new StringBuilder();
 

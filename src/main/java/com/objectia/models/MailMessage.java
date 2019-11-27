@@ -172,7 +172,7 @@ public class MailMessage {
    /**
      * Adds a tag to the message
      * 
-	 * @param replyTo the tag to add
+	 * @param tag the tag to add
      */
     public void addTag(final String tag) {
         if (this.tags.size() < 3) {

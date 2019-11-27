@@ -17,8 +17,9 @@ public class Usage {
      * Get API usage.
      * 
      * @return an object with API usage info.
+     * @throws APIException if the request failed
      */
-    public static APIUsage get() throws APIException, IllegalArgumentException {
+    public static APIUsage get() throws APIException {
         return ObjectiaClient.get("/v1/usage", APIUsage.class);
     }
 

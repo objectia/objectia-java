@@ -59,6 +59,15 @@ public final class ObjectiaClient {
         ObjectiaClient.setTimeout(timeout);
     }
 
+    /**
+     * Executes an HTTP GET request
+     * 
+     * @param <T> the response type
+     * @param path the path to add to the base URL
+     * @param aClass the type of class we want to return
+     * @return an instance of class T
+     * @throws APIException of the request failed
+     */
     public static <T> T get(final String path, Class<T> aClass) throws APIException {
         RequestConfig config = RequestConfig.custom()
           .setConnectTimeout(timeout * 1000)
@@ -101,6 +110,16 @@ public final class ObjectiaClient {
         }
     }
 
+    /**
+     * Executes an HTTP POST request
+     * 
+     * @param <T> the response type
+     * @param path the path to add to the base URL
+     * @param payload an object containing the post payload data
+     * @param aClass the type of class we want to return
+     * @return an instance of class T
+     * @throws APIException of the request failed
+     */
     public static <T> T post(final String path, final Object payload, Class<T> aClass) throws APIException {
         RequestConfig config = RequestConfig.custom()
           .setConnectTimeout(timeout * 1000)
@@ -153,6 +172,14 @@ public final class ObjectiaClient {
         }
     }
 
+    /**
+     * Creates an object from a JSON string
+     * 
+     * @param <T> the response type
+     * @param json the JSON string
+     * @param aClass the type of class we want to create
+     * @return an instance of class T
+     */
     public static <T> T fromJSON(final String json, Class<T> aClass) {
         Type type = TypeToken.getParameterized(Entity.class, aClass).getType();
         Entity<T> res = GSON.fromJson(json, type);
@@ -160,8 +187,9 @@ public final class ObjectiaClient {
     }
 
     /**
-     * Creates a json string from the Usage
+     * Creates a JSON string from an object
      * 
+     * @param obj the object to convert
      * @return a JSON data string
      */
     public static String toJSON(Object obj) {

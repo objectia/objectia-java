@@ -46,8 +46,6 @@ public class ObjectiaTest {
             assertNotEquals(0, usage.getGeoLocationRequests());
         } catch (ResponseException ex) {
             assertNull(ex);
-        } catch (IllegalArgumentException ex) {
-            assertNull(ex);
         }
     }
 
@@ -92,8 +90,6 @@ public class ObjectiaTest {
             assertEquals(1, receipt.getAcceptedRecipients());
             assertEquals(0, receipt.getRejectedRecipients());
         } catch (ResponseException ex) {
-            assertNull(ex);
-        } catch (IllegalArgumentException ex) {
             assertNull(ex);
         }
     }
