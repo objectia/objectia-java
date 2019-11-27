@@ -40,9 +40,10 @@ compile "com.objectia:objectia-java:1.0.0"
 
 You'll need to manually install the following JARs:
 
-* The objectia JAR from https://github.com/objectia/objectia-java/releases/latest
-* [Google Gson](https://github.com/google/gson) from <https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar>.
-* [Apache HttpClient](https://hc.apache.org/httpcomponents-client-4.5.x/index.html) from <https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.10/httpclient-4.5.10.jar>.
+* [Objectia-java](https://github.com/objectia/objectia-java/releases/latest)
+* [Google Gson](https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.6)
+* [Apache HttpClient](https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.10)
+
 
 ### [ProGuard](http://proguard.sourceforge.net/)
 
